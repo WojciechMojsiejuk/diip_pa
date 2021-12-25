@@ -14,6 +14,7 @@ Pre-processing
 - Hough Circle Transform (detect circles in the image, then use the information about their radii in prediction, convert pixel values to milimiters)
 - [OpenCV 1](https://dev.to/tinazhouhui/coin-detection-discovering-opencv-with-python-1ka1).
 - [OpenCV 2](https://dev.to/tinazhouhui/coin-amount-calculation-discovering-opencv-with-python-52gn)
+- [OpenCV 3](https://docs.opencv.org/4.x/d3/db4/tutorial_py_watershed.html?fbclid=IwAR2_SYNdkmvdvxSRO3RvLcmKP8yq2s3wizs_pLUK6EsA_snwiX0I94BTC5Y)
 
 2. Measuring colors
 
