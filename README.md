@@ -4,6 +4,8 @@ Digital Imaging and Image Preprocessing Practical Assignment
 Pre-processing
 
 1. Data loading (image) -> data + 6x1 class
+2. Calibration
+- [Chessboard detection](https://docs.opencv.org/3.0.0/d9/d0c/group__calib3d.html#ga6a10b0bb120c4907e5eabbcd22319022)
 
 *STEPS:*
 
