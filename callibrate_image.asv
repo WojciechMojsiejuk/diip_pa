@@ -1,0 +1,4 @@
+function c_img = callibrate_image(R_PATH,B_PATHS,D_PATHS, F_PATHS)
+% Calibrates raw image of given path R_PATH using bias images (of paths:
+% B_PATHS), dark images (of paths: D_PATHS) and flat images bias images (of paths: F_PATHS)
+end

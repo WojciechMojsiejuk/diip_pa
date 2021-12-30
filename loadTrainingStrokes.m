@@ -1,4 +1,3 @@
-
 if isfile("trainingStrokes.mat")
      % File exists.
      load trainingStrokes.mat;
