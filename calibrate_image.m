@@ -10,13 +10,19 @@ B = loading_calibration_images(B_PATHS, B_COUNT);
 D = loading_calibration_images(D_PATHS, D_COUNT);
 F = loading_calibration_images(F_PATHS, F_COUNT);
 R = load_image(R_PATH);
+[height, width, channels]=size(R);
 
 B_mean = mean(B,1);
+D_mean = mean(D,1);
+F_mean = mean(F,1);
+imwrite(reshape(B_mean,height,width,channels),'B_mean.JPG');
+imwrite(reshape(D_mean,height,width,channels),'D_mean.JPG');
+imwrite(reshape(F_mean,height,width,channels),'F_mean.JPG');
 
 D = D - B_mean;
 F = F - B_mean;
 
-[height, width, channels]=size(R);
+
 
 R = R - reshape(B_mean,height,width,channels);
 

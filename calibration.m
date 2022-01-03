@@ -3,7 +3,7 @@ clc
 
 BIAS_DIR = 'DIIP-images-bias';
 DARK_DIR = 'DIIP-images-dark';
-FLAT_DIR = 'DIIP-images-dark';
+FLAT_DIR = 'DIIP-images-flat';
 MEASUREMENT_1_DIR = 'DIIP-images-measurements-1';
 MEASUREMENT_2_DIR = 'DIIP-images-measurements-2';
 
