@@ -1,3 +1,0 @@
-close all
-img = im2double(imread('measurement_2_6.JPG'));
-imshow(image_cropping(img));

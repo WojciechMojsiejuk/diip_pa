@@ -12,11 +12,11 @@ function [h_px_2_mm, v_px_2_mm]=geometry_calibration(image)
        if is_square(s(i), 20)
            rectangle('position',s(i).BoundingBox,'edgecolor','g','linewidth',4)
            box=s(i).BoundingBox;
-           cimg = imcrop(I,box);
-           W = [W,size(cimg,2)];
-           H = [H,size(cimg,1)];
+           W = [W,box(3)];
+           H = [H,box(4)];
        end
     end 
+
     
     W_mean = mean(W);
     H_mean = mean(H);
