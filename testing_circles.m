@@ -1,8 +1,8 @@
 close all
-img = im2double(imread('measurement_2_5.JPG'));
+img = im2double(imread('measurement_1_4.JPG'));
 BW = rgb2gray(img);
-h = fspecial('disk',1000);
-imfilter(BW,h,'replicate');
+% h = fspecial('disk',1000);
+% imfilter(BW,h,'replicate');
 % BW = imgaussfilt(BW,10);
 figure
 imshow(BW)
