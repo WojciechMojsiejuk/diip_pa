@@ -19,6 +19,7 @@ Pre-processing
 - [Detecting checkerboard][https://se.mathworks.com/matlabcentral/answers/24467-identifying-objects-in-a-picture-containing-several-objects]
 2. Measuring colors
 
+- [Ilumination normalization][https://se.mathworks.com/matlabcentral/answers/520327-color-normalization-algorithm-under-various-lighting-conditions]
 - [White balance][https://se.mathworks.com/help/images/comparison-of-auto-white-balance-algorithms.html]
 - Reference image of the coins color
 - Binary thresholding to segment coins from background
