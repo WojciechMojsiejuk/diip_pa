@@ -1,4 +1,4 @@
-function coins = geometry_estim(img, h_px_2_mm, v_px_2_mm)
+function [coins,cropped_coins_imgs] = geometry_estim(img, h_px_2_mm, v_px_2_mm)
     diameters =  coins_diameters();
     coins = zeros(1,length(diameters));
     radii_px = (diameters*h_px_2_mm)./(2);
@@ -13,7 +13,7 @@ function coins = geometry_estim(img, h_px_2_mm, v_px_2_mm)
     
     [centers, radii] = coins_detection(img, min_bound, max_bound, true);
     
-    coins_cropping(img, centers, radii);
+    cropped_coins_imgs = coins_cropping(img, centers, radii);
     
     C = zeros(length(radii),6);
     
