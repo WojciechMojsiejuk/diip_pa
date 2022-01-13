@@ -11,7 +11,7 @@ function [h_px_2_mm, v_px_2_mm]=geometry_calibration(image, DEBUG)
     s = regionprops(closeBW,'basic');
     
     if(DEBUG)
-    figure, imshow(closeBW); hold on;
+        figure, imshow(closeBW); hold on;
     end
     W = [];
     H = [];

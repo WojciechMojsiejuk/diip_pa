@@ -9,9 +9,11 @@ function coins = geometry_estim(img, h_px_2_mm, v_px_2_mm)
     difference(end) = difference(end-1);
     
     min_bound = floor(sorted_radii_px(1)-(difference(1)/2));
-    max_bound = ceil(sorted_radii_px(end)+(difference(end)/2));
+    max_bound = ceil(sorted_radii_px(end)+(difference(end)/1.2));
     
-    [~, radii] = coins_detection(img, min_bound, max_bound, true);
+    [centers, radii] = coins_detection(img, min_bound, max_bound, true);
+    
+    coins_cropping(img, centers, radii);
     
     C = zeros(length(radii),6);
     
