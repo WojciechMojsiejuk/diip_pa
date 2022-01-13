@@ -1,0 +1,34 @@
+function [centers, radii]=coins_detection(img, minRadius, maxRadius, DEBUG)
+
+    if ~exist('DEBUG','var')
+        DEBUG = false;
+    end
+
+    I = rgb2gray(img);
+    I = imcomplement(I);
+    imshow(I)
+    [Gmag, ~] = imgradient(I,'intermediate');
+    se = strel('disk',30);
+    BW = imclose(Gmag,se);
+    h = fspecial('disk',20);
+    BW = imfilter(BW,h,'replicate');
+    BW = imgaussfilt(BW,10);
+    BW = (BW>0.05);
+    [centers, radii]=imfindcircles(BW, [minRadius,maxRadius],'Sensitivity',0.97);
+
+    if(DEBUG)
+        figure
+        imshowpair(I,BW,'montage'), hold on
+        viscircles(centers, radii,'EdgeColor','b','LineWidth',1);
+    end
+end
+
+function skip_repetition(centers, radii)
+    L = length(radii);
+    for i = 1:L
+        for j = 1:L
+            
+    
+end
+
+end

@@ -8,29 +8,46 @@ function coins = geometry_estim(img, h_px_2_mm, v_px_2_mm)
     difference(1) = difference(2);
     difference(end) = difference(end-1);
     
-    I = rgb2gray(img);
-    BW = imbinarize(I);
-    se = strel('disk',15);
-    closeBW = imopen(BW,se);
-    closeBW = imclose(closeBW,se);
-    closeBW = imcomplement(closeBW);
-    s = regionprops(closeBW,'Centroid','Circularity','MajorAxisLength','MinorAxisLength');
-    figure
-    imshow(closeBW), hold on
-     for i = 1:length(s)
-        plot(s(i).Centroid(1),s(i).Centroid(2),'b*')
-        if is_circle(s(i), 0.9)
-            viscircles(s(i).Centroid, s(i).MajorAxisLength/2,'EdgeColor','b');
-            
-            for j = 1:length(diameters)
-                min_bound = sorted_radii_px(j)-(difference(j)/2);
-                max_bound = sorted_radii_px(j)+(difference(j+1)/2);
-                if (min_bound <= s(i).MajorAxisLength/2) && (max_bound > s(i).MajorAxisLength/2) 
-                    coins(idx(j)) = coins(idx(j)) + 1; 
-                end
-            end
+    min_bound = floor(sorted_radii_px(1)-(difference(1)/2));
+    max_bound = ceil(sorted_radii_px(end)+(difference(end)/2));
+    
+    [~, radii] = coins_detection(img, min_bound, max_bound, true);
+    
+    C = zeros(length(radii),6);
+    
+    for idx = 1:length(radii)
+        for coin = 1:6
+            C(idx,coin) = normpdf(radii(idx),radii_px(coin));
         end
-    end 
+    end
+    [~, coins_idx] = max(C,[],2);
+    for j = 1:length(coins_idx)
+        coins(coins_idx(j)) = coins(coins_idx(j)) + 1;
+    end
+end
+%     I = rgb2gray(img);
+%     BW = imbinarize(I);
+%     se = strel('disk',15);
+%     closeBW = imopen(BW,se);
+%     closeBW = imclose(closeBW,se);
+%     closeBW = imcomplement(closeBW);
+%     s = regionprops(closeBW,'Centroid','Circularity','MajorAxisLength','MinorAxisLength');
+%     figure
+%     imshow(closeBW), hold on
+%      for i = 1:length(s)
+%         plot(s(i).Centroid(1),s(i).Centroid(2),'b*')
+%         if is_circle(s(i), 0.9)
+%             viscircles(s(i).Centroid, s(i).MajorAxisLength/2,'EdgeColor','b');
+%             
+%             for j = 1:length(diameters)
+%                 min_bound = sorted_radii_px(j)-(difference(j)/2);
+%                 max_bound = sorted_radii_px(j)+(difference(j+1)/2);
+%                 if (min_bound <= s(i).MajorAxisLength/2) && (max_bound > s(i).MajorAxisLength/2) 
+%                     coins(idx(j)) = coins(idx(j)) + 1; 
+%                 end
+%             end
+%         end
+%     end 
 %      [centers, radii, metric] = imfindcircles(closeBW,[350,450]);
 %      viscircles(centers, radii,'EdgeColor','b');
 %     
@@ -44,4 +61,3 @@ function coins = geometry_estim(img, h_px_2_mm, v_px_2_mm)
 % 
 %     imshow(img), hold on
 %     viscircles(centersStrong5, radiiStrong5,'EdgeColor','b');
-end

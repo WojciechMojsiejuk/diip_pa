@@ -1,5 +1,5 @@
 close all
-img = im2double(imread('measurement_2_6.JPG'));
+img = im2double(imread('measurement_1_1.JPG'));
 img = illumination_normalization(img);
 BW = rgb2gray(img);
 h = fspecial('disk',30);
