@@ -18,10 +18,11 @@ model4 = apply_illuminant(model4);
 model5 = apply_illuminant(model5);
 model6 = apply_illuminant(model6);
 
-im = cell2mat(cimgs(6));
-im = illumination_normalization(im);
-im = imlocalbrighten(im);
-im = divide_filter(im);
+im = cell2mat(cimgs(1));
+% im = illumination_normalization(im);
+% im = imlocalbrighten(im);
+im = lin2rgb(im);
+% im = divide_filter(im);
 imshow(im)
 
 im = blur_img(im);
