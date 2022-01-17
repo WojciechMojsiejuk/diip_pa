@@ -1,4 +1,7 @@
-function coins_img = coins_cropping(image, centers, radii)
+function coins_img = coins_cropping(image, centers, radii, DEBUG)
+    if(~exist('DEBUG','var'))
+        DEBUG = false;
+    end
     L = length(radii);
     coins_img = cell(1,L);
     for i = 1:L
@@ -16,7 +19,9 @@ function coins_img = coins_cropping(image, centers, radii)
         mask = create_circle_mask(max(M,N), radii(i));
         im(repmat(mask(1:M,1:N),[1,1,3])==0)=1;  
         coins_img(1,i) = mat2cell(im,M,N,O);
-        figure
-        imshow(im)
+        if(DEBUG)
+            figure
+            imshow(im)
+        end
     end
 end

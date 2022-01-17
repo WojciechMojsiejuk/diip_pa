@@ -7,7 +7,7 @@ model6 = im2double(imread('models/2.png'));
 im = im2double(imread('coin_2.png'));
 
 
-im = lin2rgb(im);
+im = lin2rgb(model1);
 imshow(im)
 % limg = rgb2lab(model6,'WhitePoint','d50');
 % B = limg(:,:,3);

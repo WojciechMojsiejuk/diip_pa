@@ -6,7 +6,6 @@ function [centers, radii]=coins_detection(img, minRadius, maxRadius, DEBUG)
 
     I = rgb2gray(img);
     I = imcomplement(I);
-    imshow(I)
     [Gmag, ~] = imgradient(I,'intermediate');
     se = strel('disk',30);
     BW = imclose(Gmag,se);

@@ -11,10 +11,10 @@ function [coins,cropped_coins_imgs, C] = geometry_estim(img, h_px_2_mm, v_px_2_m
     min_bound = floor(sorted_radii_px(1)-(difference(1)/2));
     max_bound = ceil(sorted_radii_px(end)+(difference(end)/1.2));
     
-    [centers, radii] = coins_detection(img, min_bound, max_bound, true);
-    
+    [centers, radii] = coins_detection(img, min_bound, max_bound, false);
     cropped_coins_imgs = coins_cropping(img, centers, radii);
-    
+   
+%     imshowpair(img,cell2mat(cropped_coins_imgs(1)),'montage')
     C = zeros(length(radii),6);
     
     for idx = 1:length(radii)
