@@ -17,12 +17,12 @@ function [C,dist, RGB] = color_estim(im, K, isDark, DEBUG)
 
 
     %Reading model images
-    model1 = im2double(imread('models/5_dim.png'));
-    model2 = im2double(imread('models/10.png'));
-    model3 = im2double(imread('models/20.png'));
-    model4 = im2double(imread('models/50.png'));
+    model1 = im2double(imread('models/5_cold2.png'));
+    model2 = im2double(imread('models/10_2.png'));
+    model3 = im2double(imread('models/20_cold.png'));
+    model4 = im2double(imread('models/50_2.png'));
     model5 = im2double(imread('models/1.png'));
-    model6 = im2double(imread('models/2.png'));
+    model6 = im2double(imread('models/2_4.png'));
 
     % Applying illuminant
     model1 = apply_illuminant(model1);
@@ -50,9 +50,14 @@ function [C,dist, RGB] = color_estim(im, K, isDark, DEBUG)
     [rgb5, count5, RGB5]=sorted_colors_segmentation(model5, K);
     [rgb6, count6, RGB6]=sorted_colors_segmentation(model6, K);
 
-    %Computing dist and MVNPDF
-    dist=[norm(rgb-rgb1),norm(rgb-rgb2),norm(rgb-rgb3),norm(rgb-rgb4),norm(rgb-rgb5),norm(rgb-rgb6)];
-    C = [sum(count1*mvnpdf(rgb,rgb1)),sum(count2*mvnpdf(rgb,rgb2)),sum(count3*mvnpdf(rgb,rgb3)),sum(count4*mvnpdf(rgb,rgb4)),sum(count5*mvnpdf(rgb,rgb5)),sum(count6*mvnpdf(rgb,rgb6))];
+    %Computing dist
+    D1 = norm(count1'.*(rgb-rgb1));
+    D2 = norm(count2'.*(rgb-rgb2));
+    D3 = norm(count3'.*(rgb-rgb3));
+    D4 = norm(count4'.*(rgb-rgb4));
+    D5 = norm(count5'.*(rgb-rgb5));
+    D6 = norm(count6'.*(rgb-rgb6));
+    dist=[D1,D2,D3,D4,D5,D6];
     
     if(DEBUG)
         figure
@@ -70,24 +75,27 @@ function [C,dist, RGB] = color_estim(im, K, isDark, DEBUG)
         imshow(RGB5)
         subplot(3,3,9)
         imshow(RGB6)
-    end
+    end  
     
-    function modified_model_img = apply_illuminant(model_img)
-        if(isDark)
-            illuminant = im2double(imread('SceneIlluminant.png'));
-            modified_model_img =im2double(imfuse(model_img,illuminant,'blend','Scaling','joint'));
-        else
-            modified_model_img=model_img;
-        end
-        mask = create_circle_mask(540, 270);
-        modified_model_img(repmat(mask,[1,1,3])==0)=1; 
-        if(isDark)
-            modified_model_img = illumination_normalization(modified_model_img);
-%             modified_model_img = imlocalbrighten(modified_model_img);
-        end
-    end    
+    
+    
+    rgb(:,4) = count';
+    rgb1(:,4) = count1';
+    rgb2(:,4) = count2';
+    rgb3(:,4) = count3';
+    rgb4(:,4) = count4';
+    rgb5(:,4) = count5';
+    rgb6(:,4) = count6';
+    
+    C1 = count1'.*mvnpdf(rgb,rgb1);
+    C2 = count2'.*mvnpdf(rgb,rgb2);
+    C3 = count3'.*mvnpdf(rgb,rgb3);
+    C4 = count4'.*mvnpdf(rgb,rgb4);
+    C5 = count5'.*mvnpdf(rgb,rgb5);
+    C6 = count6'.*mvnpdf(rgb,rgb6);
+    C = [sum(C1), sum(C2), sum(C3), sum(C4), sum(C5), sum(C6)];
+    
 end
-
 
 
 function [rgb, count, segmented_im] = sorted_colors_segmentation(im, K)
@@ -96,24 +104,11 @@ function [rgb, count, segmented_im] = sorted_colors_segmentation(im, K)
     rgb = rgb(idx,:);
 end
 
-function blurred = blur_img(img)
-    H = fspecial('disk',10);
-    blurred = imfilter(img,H,'replicate'); 
-end
 
-function dimg = apply_filter(img)
-    illuminant = im2double(imread('SceneIlluminantLarge.png'));
-    [M,N,~]=size(img);
-    background = illuminant(1:M,1:N,:);
-    dimg = img./(1.3*background);
-end
 
-function img = delete_background(img)
-    [M,N,~]=size(img);
-    L = max([M,N]);
-    mask = create_circle_mask(L, L/2);
-    img(repmat(mask(1:M,1:N,:),[1,1,3])==0)=1;  
-end
+
+
+
 
 
 % CREATING ILLUMINANT

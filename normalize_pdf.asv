@@ -1,0 +1,12 @@
+function C = normalize_pdf(C)
+    if sum(isinf(C)
+    [M,N] = size(C);
+    for i = 1:M
+        minimum_val = min(C(~isinf(C(i,:)),:));
+        C(isinf(C(i,:)),:) = 1.1*minimum_val;
+    end
+    
+    min_C = min(C,[],2);
+    max_C = max(C,[],2);
+    C = (C - min_C)./(max_C - min_C);
+end

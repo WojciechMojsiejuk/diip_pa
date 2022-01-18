@@ -28,7 +28,7 @@ function [coins,cropped_coins_imgs, C] = geometry_estim(img, h_px_2_mm, v_px_2_m
     end
     for idx = 1:length(radii)
         for coin = 1:6
-            C(idx,coin) = log(normpdf(radii(idx),radii_px(coin)));
+            C(idx,coin) = log(normpdf(radii(idx),radii_px(coin)-CORRECTION));
         end
     end
     [~, coins_idx] = max(C,[],2);

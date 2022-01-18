@@ -31,20 +31,24 @@ function [centers, radii] = skip_repetition(centers, radii)
     L = length(radii);
     for i = 1:L-1
         for j = i+1:L
-            if(norm(centers(i,:)-centers(j,:)) < radii(i))
-                centers(j,:) = [];
-                radii(j) = [];
-                L = L-1;
-                if(j >= L || i >= L)
-                    break;
+            try
+                if(norm(centers(i,:)-centers(j,:)) < radii(i))
+                    centers(j,:) = [];
+                    radii(j) = [];
+                    L = L-1;
+                    if(j >= L || i >= L)
+                        break;
+                    end
+                elseif(norm(centers(i,:)-centers(j,:)) < radii(j))
+                    centers(i,:) = [];
+                    radii(i) = [];
+                    L = L-1;
+                    if(j >= L || i >= L)
+                        break;
+                    end
                 end
-            elseif(norm(centers(i,:)-centers(j,:)) < radii(j))
-                centers(i,:) = [];
-                radii(i) = [];
-                L = L-1;
-                if(j >= L || i >= L)
-                    break;
-                end
+            catch
+                warning('Skip repetition function run error, numbers of coins might be not well estimated')
             end
                 
         end
