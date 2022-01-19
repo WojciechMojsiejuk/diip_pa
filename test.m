@@ -1,9 +1,9 @@
 close all
 clear all
 clc
-img = im2double(imread('measurement_2_6.JPG'));
+img = im2double(imread('measurement_1_1.JPG'));
 cii = coins_in_images;
-correct = flip(cii(12,:));
+correct = flip(cii(1,:));
 cimg = image_cropping(img);
 cimg = illumination_normalization(cimg);
 F_img = im2double(imread('F_mean.JPG'));
@@ -45,7 +45,7 @@ C_geo = normalize_pdf(C_geo);
  
 C_geo
 C_lab_and_hist
-C_tot = C_geo+0.8*C_lab_and_hist
+C_tot = C_geo+0.9*C_lab_and_hist
 
 
 [~,idx]=max(C_tot,[],2);
