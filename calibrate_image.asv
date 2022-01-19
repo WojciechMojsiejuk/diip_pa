@@ -1,0 +1,55 @@
+function c_img = calibrate_image(R,B_mean,D_mean,F_mean)
+% Calibrates raw image R using mean of bias images (B_mean), 
+% dark images (D_mean) and flat images (of paths: F_PATHS)
+
+
+% Checking if images are doubles
+if ~isa( R, 'double' ) 
+    R = im2double(R);
+end
+if ~isa( B_mean, 'double' ) 
+    B_mean = im2double(B_mean);
+end
+if ~isa( D_mean, 'double' ) 
+    D_mean = im2double(D_mean);
+end
+if ~isa( F_mean, 'double' ) 
+    F_mean = im2double(F_mean);
+end
+
+B = loading_calibration_images(B_PATHS, B_COUNT);
+D = loading_calibration_images(D_PATHS, D_COUNT);
+F = loading_calibration_images(F_PATHS, F_COUNT);
+R = load_image(R_PATH);
+[height, width, channels]=size(R);
+
+B_mean = mean(B,1);
+D_mean = mean(D,1);
+F_mean = mean(F,1);
+imwrite(reshape(B_mean,height,width,channels),'B_mean.JPG');
+imwrite(reshape(D_mean,height,width,channels),'D_mean.JPG');
+imwrite(reshape(F_mean,height,width,channels),'F_mean.JPG');
+
+D_mean = D_mean - B_mean;
+F_mean = F_mean - B_mean;
+R = R - B_mean;
+
+
+R = R - D_mean;
+F_mean = F_mean - D_mean;
+
+F_mean - mean2(F_mean) + 1;
+
+F_sum = sum(F,1);
+F_mean = mean(F_sum,1);
+
+F_prim = F_sum - F_mean + 1;
+
+c_img = R./reshape(F_prim,height,width,channels);
+end
+
+function img = loading_calibration_images(PATH, COUNT)
+    for i = 1:COUNT
+        img(i,:,:,:) = load_image(PATH(i));
+    end
+end

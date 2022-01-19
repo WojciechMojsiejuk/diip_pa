@@ -1,7 +1,5 @@
-function [coins,cropped_coins_imgs, C] = geometry_estim(img, h_px_2_mm, v_px_2_mm)
-%     CORRECTION = 4;
+function [cropped_coins_imgs, C] = geometry_estim(img, h_px_2_mm, v_px_2_mm)
     diameters =  coins_diameters();
-    coins = zeros(1,length(diameters));
     radii_px = (diameters*((h_px_2_mm+v_px_2_mm)./2))./(2);
     [sorted_radii_px, ~] = sort(radii_px);
     difference = zeros(1,length(diameters)+1); 
@@ -30,9 +28,5 @@ function [coins,cropped_coins_imgs, C] = geometry_estim(img, h_px_2_mm, v_px_2_m
         for coin = 1:6
             C(idx,coin) = log(normpdf(radii(idx),radii_px(coin)));
         end
-    end
-    [~, coins_idx] = max(C,[],2);
-    for j = 1:length(coins_idx)
-        coins(coins_idx(j)) = coins(coins_idx(j)) + 1;
     end
 end
