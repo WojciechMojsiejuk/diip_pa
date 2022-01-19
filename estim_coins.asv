@@ -29,11 +29,10 @@ function [coins] = estim_coins(measurement, bias, dark, flat)
     end
 
     C_geo = normalize_pdf(C_geo);
-
-%     DISPLAY PROBABILITIES
+% 
 %     C_geo
 %     C_lab_and_hist
-    C_tot = C_geo+0.9*C_lab_and_hist;
+    C_tot = C_geo+0.9*C_lab_and_hist
 
 
     [~,idx]=max(C_tot,[],2);
